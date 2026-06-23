@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlueprintController;
+use App\Http\Controllers\RawContentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,4 +18,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('blueprints', BlueprintController::class);
     Route::post('blueprints/{blueprint}/duplicate', [BlueprintController::class, 'duplicate']);
+
+    Route::apiResource('raw-contents', RawContentController::class)->only([
+        'index', 'store', 'show',
+    ]);
 });
