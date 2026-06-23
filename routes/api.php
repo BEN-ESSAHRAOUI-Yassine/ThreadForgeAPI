@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlueprintController;
+use App\Http\Controllers\GeneratedPostController;
 use App\Http\Controllers\RawContentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,4 +23,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('raw-contents', RawContentController::class)->only([
         'index', 'store', 'show',
     ]);
+
+    Route::get('generated-posts', [GeneratedPostController::class, 'index']);
+    Route::get('generated-posts/{generatedPost}', [GeneratedPostController::class, 'show']);
+    Route::patch('generated-posts/{generatedPost}/status', [GeneratedPostController::class, 'update']);
 });
