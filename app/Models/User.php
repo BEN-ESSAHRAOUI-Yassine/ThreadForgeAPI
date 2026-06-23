@@ -35,4 +35,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Blueprint::class);
     }
+
+    public function generatedPosts(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    {
+        return $this->hasManyThrough(GeneratedPost::class, RawContent::class);
+    }
 }
