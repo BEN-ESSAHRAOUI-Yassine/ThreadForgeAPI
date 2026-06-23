@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlueprintController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\GeneratedPostController;
 use App\Http\Controllers\RawContentController;
 use Illuminate\Http\Request;
@@ -27,4 +28,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('generated-posts', [GeneratedPostController::class, 'index']);
     Route::get('generated-posts/{generatedPost}', [GeneratedPostController::class, 'show']);
     Route::patch('generated-posts/{generatedPost}/status', [GeneratedPostController::class, 'update']);
+
+    Route::post('posts/{post}/chat', ChatController::class);
 });
