@@ -178,7 +178,7 @@ The assistant uses:
 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/threadforgeapi.git
+git clone https://github.com/BEN-ESSAHRAOUI-Yassine/ThreadForgeAPI.git
 cd threadforgeapi
 ```
 
