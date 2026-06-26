@@ -8,6 +8,7 @@ use App\Models\RawContent;
 use App\Services\AiGenerationService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Log;
 
 class GeneratePostJob implements ShouldQueue
 {
@@ -50,5 +51,13 @@ class GeneratePostJob implements ShouldQueue
     public function backoff(): array
     {
         return [10, 30, 60];
+    }
+
+    public function failed(\Throwable $e): void
+    {
+        Log::error('GeneratePostJob failed after all retries', [
+            'raw_content_id' => $this->rawContentId,
+            'error' => $e->getMessage(),
+        ]);
     }
 }

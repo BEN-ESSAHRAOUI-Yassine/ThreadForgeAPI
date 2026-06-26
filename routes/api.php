@@ -25,6 +25,8 @@ Route::middleware('auth:sanctum')->group(function () {
         'index', 'store', 'show',
     ]);
 
+    Route::post('raw-contents/{rawContent}/retry', [RawContentController::class, 'retry']);
+
     Route::get('generated-posts', [GeneratedPostController::class, 'index']);
     Route::get('generated-posts/{generatedPost}', [GeneratedPostController::class, 'show']);
     Route::patch('generated-posts/{generatedPost}/status', [GeneratedPostController::class, 'update']);
