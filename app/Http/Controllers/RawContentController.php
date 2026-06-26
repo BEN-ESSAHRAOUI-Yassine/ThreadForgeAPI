@@ -99,4 +99,19 @@ class RawContentController extends Controller
 
         return new RawContentResource($rawContent);
     }
+
+    public function retry(RawContent $rawContent): JsonResponse
+    {
+        abort_if($rawContent->user_id !== auth()->id(), 403);
+
+        abort_if($rawContent->statut !== RawContentStatus::Failed, 422, 'Only failed posts can be retried.');
+
+        $rawContent->update(['statut' => RawContentStatus::Pending]);
+
+        dispatch(new GeneratePostJob($rawContent->id));
+
+        return RawContentResource::make($rawContent->fresh())
+            ->response()
+            ->setStatusCode(202);
+    }
 }
