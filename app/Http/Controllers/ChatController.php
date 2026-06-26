@@ -41,7 +41,30 @@ class ChatController extends Controller
      *   "message": "No query results for model [App\\Models\\GeneratedPost]."
      * }
      */
-    public function __invoke(GeneratedPost $post, ChatRequest $request): JsonResponse
+    public function history(GeneratedPost $post): JsonResponse
+    {
+        abort_if($post->rawContent->user_id !== auth()->id(), 403);
+
+        $conversation = Conversation::where([
+            'user_id' => auth()->id(),
+            'generated_post_id' => $post->id,
+        ])->first();
+
+        if (! $conversation) {
+            return response()->json(['data' => []]);
+        }
+
+        return response()->json([
+            'data' => [
+                'conversation_id' => $conversation->id,
+                'messages' => $conversation->messages()
+                    ->orderBy('created_at')
+                    ->get(['role', 'content', 'created_at']),
+            ],
+        ]);
+    }
+
+    public function send(GeneratedPost $post, ChatRequest $request): JsonResponse
     {
         abort_if($post->rawContent->user_id !== auth()->id(), 403);
 
